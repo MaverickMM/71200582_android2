@@ -37,6 +37,19 @@ class MainActivity : AppCompatActivity() {
         val btnUpdate = findViewById<Button>(R.id.btnUpdate)
         val btnDelete = findViewById<Button>(R.id.btnDelete)
 
+
+        firestore?.collection("catatan")?.orderBy("judul", Query.Direction.ASCENDING)?.get()?.addOnSuccessListener { data ->
+
+
+            var output = ""
+            for (hasil in data) {
+                    output += "\n${hasil["judul"]} - ${hasil["tanggal"]}: ${hasil["isi"]}"
+
+            }
+            txvOutput.text = output
+
+        }
+
         //MENYIMPAN DATA
         btnSimpan.setOnClickListener {
             val catatan = Catatan(
